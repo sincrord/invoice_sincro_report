@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="paperformat_a4_landscape" model="report.paperformat">
+            <field name="name">CDFI Letter</field>
+            <field name="default" eval="True" />
+            <field name="format">Letter</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">45</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">40</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <template id="sincro_external_layout01">
+            <!-- Multicompany -->
+            <t t-if="not o and doc">
+                <t t-set="o" t-value="doc" />
+            </t>
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+
+            <t t-raw="0" />
+
+        <div class="footer" style="font-size:12px;">
+            <div class="text-center" style="border-top: 1px solid black;">
+                <ul class="list-inline mb4">
+                    <li t-if="company.phone" class="list-inline-item">Teléfono: <span t-field="company.phone"/></li>
+                    <li t-if="company.email" class="list-inline-item">&amp;bull;</li>
+                    <li t-if="company.email" class="list-inline-item" >Correo Electrónico: <span t-field="company.email"/></li>
+                    <li t-if="company.website" class="list-inline-item">&amp;bull;</li>
+                    <li t-if="company.website" class="list-inline-item">Página web: <span t-field="company.website"/></li>
+                    <li class="list-inline-item">Página: <span class="page"/> / <span class="topage"/></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="header" style="font-size:12px;text-align:right;">
+            <div class="row">
+                <div class="col-4">
+                    <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"
+                    style="max-height:170px;max-width:220px;" />
+                </div>
+                <div class="col-8" name="company_information">
+                    <!--COMPANY INFORMATION-->
+                    <!--<strong>FACTURA</strong><br/>-->
+                    <strong>FACTURA </strong> <span style="color:#c0392b;" t-field="o.name"/><br/>
+                    <span t-field="o.company_id.nombre_fiscal"/><br/>
+                    <span t-field="o.company_id.vat"/><br/>
+                    <span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/><br/>
+                    C.P <span t-field="o.company_id.zip"/> <span t-field="o.company_id.city"/> <span t-field="o.company_id.state_id.name"/> <span t-field="o.company_id.country_id.name"/><br/>
+                    <span t-field="o.company_id.phone"/><br/>
+                    <span t-field="o.company_id.email"/>
+                </div>
+            </div>
+        </div>
+        </template>
+
+
+
+        <template id="report_invoice_document">
+            <t t-call="invoice_sincro_report.sincro_external_layout01">
+                <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+                <div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" style="font-size:11px;">
+                       
+                    <!--GENERAL INFORMATION-->
+                    <div class="row" name="general_information">
+                        <div class="col-5">
+                            <span style="color:#c0392b;"><strong>RECEPTOR DEL COMPROBANTE FISCAL</strong></span><br/>
+                            <span style="color:#c0392b;" t-field="o.partner_id.name"/><br/>
+                            <span style="color:#c0392b;" t-field="o.partner_id.vat"/><br/>
+                            <strong>DOMICILIO FISCAL</strong><br/>
+                            <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/> C.P <span t-field="o.partner_id.zip"/>
+                            <span t-field="o.partner_id.state_id.name"/> <span t-field="o.partner_id.country_id.name"/>
+                        </div>
+
+                        <div class="col-3">
+                            EXPEDIDO EN: <span t-field="o.company_id.zip"/><br/>
+                            TIPO DE COMPROBANTE: <span t-field="o.tipo_comprobante"/><br/>
+                            <strong>USO DEL CFDI:</strong> <span t-field="o.uso_cfdi"/>
+                        </div>
+
+                        <div class="col-4">
+                            FECHA DE VENCIMIENTO: <span t-field="o.invoice_date_due"/><br/>
+                            FECHA DE EMISIÓN: <span t-field="o.fecha_factura"/> <br/>
+                            REGIMEN FISCAL: <strong><span t-field="o.company_id.regimen_fiscal"/></strong>
+                        </div>
+                    </div>
+                    <!--END GENERAL INFORMATION-->
+                    
+                    <!--INVOICE LINES INFORMATION-->
+                    <div name="invoice_lines_information">
+                        <table class="table table-borderless" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">PARTIDA</td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">CANT.</td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">CODIGO</td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">CLAVE SAT</td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">UNIDAD SAT</td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;width:30%;">PRODUCTO/SERVICIO</td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">PRECIO</td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">IMPUESTO</td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">IMPORTE</td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <t t-set="partida" t-value="0"/>
+                                <t t-foreach="o.invoice_line_ids" t-as="l">
+
+                                    <tr t-att-class="'bg-200 font-weight-bold o_line_section' if l.display_type == 'line_section' else 'font-italic o_line_note' if l.display_type == 'line_note' else ''">
+
+                                        <t t-if="not l.display_type">
+
+                                            <t t-set="partida" t-value="partida + 1"/>    
+
+                                            <td><span t-esc="partida"/></td>
+                                        
+                                            <td><span t-field="l.quantity"/></td>
+                                        
+                                            <td><span t-field="l.product_id.default_code"/></td>
+                                        
+                                            <td><span t-field="l.product_id.clave_producto"/></td>
+                                        
+                                            <td><span t-field="l.product_id.cat_unidad_medida.clave"/> - <span t-field="l.product_id.cat_unidad_medida.descripcion"/></td>
+                                        
+                                            <td><span t-field="l.name"/></td>
+                                        
+                                            <td><span t-field="l.price_unit"/></td>
+                                        
+                                            <td>
+                                                <table>
+                                                    <tr t-foreach="l.tax_ids" t-as="tax">
+                                                        <td style="padding:1px;"><span t-field="tax.name"/></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td><span t-field="l.price_subtotal"/></td>
+                                        </t>
+                                    </tr>
+                                    <t t-if="l.display_type == 'line_section'">
+                                        <tr>
+                                            <td style="background-color:#abb2b9;padding:2px;" colspan="99">
+                                                <span t-field="l.name" t-options="{'widget': 'text'}"/>
+                                            </td>
+                                            <t t-set="current_section" t-value="l"/>
+                                            <t t-set="current_subtotal" t-value="0"/>
+                                        </tr>
+                                    </t>
+                                    
+                                    <t t-if="l.display_type == 'line_note'">
+                                        <tr>
+                                            <td style="background-color:#abb2b9;padding:2px;" colspan="99">
+                                                <span t-field="l.name" t-options="{'widget': 'text'}"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--END INVOICE LINES INFORMATION-->
+
+
+                    <!--PAYMENT DETAILS-->
+                    <div name="payment_details">
+                        <table class="table table-borderless" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">DETALLES DE PAGO</td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">IMPORTES</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <p>
+                                        <strong>FORMA DE PAGO:</strong> <span t-field="o.forma_pago"/><br/>
+                                        <strong>METODO DE PAGO:</strong> <span t-field="o.methodo_pago"/><br/>
+                                        <strong>CONDICIONES DE PAGO:</strong> <span t-field="o.invoice_payment_term_id.name"/>        <strong>MONEDA Y TC:</strong>  <span t-field="o.currency_id.name"/> <span t-field="o.currency_id.rate"/><br/>
+                                        <strong>ORDEN DE COMPRA:</strong> <span t-field="o.payment_reference"/> <strong>AREA SOLICITANTE:</strong> <span t-field="o.partner_id.ref"/><br/>  
+                                        <strong><span style="font-size:17px;">TOTAL CON LETRA: <span t-esc="o._get_amount_2_text(o.amount_total)"/></span></strong>
+                                    </p>
+                                    </td>
+
+                                    <td>
+                                        <!--TABLA SUBTOTAL-->
+                                        <table class="table table-condensed">
+                                            <tr>
+                                                <td style="padding:5px;" >
+                                                    <strong>Subtotal</strong>
+                                                </td>
+                                                <td  style="padding:5px;" class="text-right">
+                                                    <span t-esc="o.amount_untaxed" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                </td>
+                                            </tr>
+                                            <!--ADD FOR EACH TAXES TR-->
+                                            <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                                <tr>
+                                                        <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) == 1 and o.amount_untaxed == amount_by_group[2]">
+                                                           <td style="padding:5px;" ><span t-esc="amount_by_group[0]"/></td>
+                                              
+                                                           <td style="padding:5px;"  class="text-right"><span t-esc="amount_by_group[3]"/></td>
+                                                        </t>
+
+                                                 <t t-else="">
+                                                        <td style="padding:5px;" >  <span t-esc="amount_by_group[0]"/></td>
+                                                        <td style="padding:5px;"  class="text-right"><span t-esc="amount_by_group[3]"/></td>
+                                                    </t>
+
+                                                </tr> 
+                                            </t>
+                                            <tr style="border-bottom:2px solid black;font-size:17px;">
+                                                <td style="padding:1px;" >
+                                                    <strong>TOTAL:</strong>
+                                                </td>
+                                                <td style="padding:1px;"  class="text-right">
+                                                    <span t-esc="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div name="pagare_information" style="width:100%;font-size:8px;">
+                        <span>
+                        DEBO (EMOS) Y PAGARE (MOS )INCONDICIONALMENTE A LA ORDEN DE <strong><span t-field="o.company_id.nombre_fiscal"/></strong>, EN ESTA CIUDAD,  EL DÍA <strong><span t-field="o.invoice_date"/></strong>, LA CANTIDAD DE <strong><span t-esc="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/> (<span t-esc="o._get_amount_2_text(o.amount_total)"/>)</strong>, VALOR RECIBIDO A MI (NUESTRA) ENTERA SATISFACCIÓN. ESTE PAGARE CAUSARA INTERESES A RAZÓN DEL 6 % MENSUAL DESDE LA FECHA DE VENCIMIENTO HASTA SU TOTAL LIQUIDACIÓN, PAGADERO CONJUNTAMENTE CON EL PRINCIPAL. ASÍ MISMO APLICARÁ EL COBRO DE LOS GASTOS DE COBRANZA GENERADOS, EN SU CASO, DE 15 (QUINCE) UMA’s POR CADA MES VENCIDO. EN CASO DE COBRO JUDICIAL, PAGARÉ LOS GASTOS QUE SE ORIGINEN, SOMETIÉNDOME EXPRESAMENTE A LOS TRIBUNALES QUE EL ACREEDOR ELIJA Y RENUNCIANDO AL FUERO DE MI ACTUAL O FUTURO DOMICILIO. ESTE PAGARÉ ES MERCANTIL Y ESTÁ REGIDO POR LA LEY GENERAL DE TÍTULOS DE OPERACIONES DE CRÉDITO, EN SUS ARTÍCULOS 172 Y 173, PARTE FINAL, POR NO SER PAGARÉ DOMICILIADO Y ARTÍCULOS CORRELATIVOS. LA CANTIDAD QUE AMPARA ESTE PAGARÉ ES PARTE DE LA CANTIDAD MAYOR POR LA CUAL SE OTORGAN OTROS PAGARÉS CON VENCIMIENTOS POSTERIORES Y QUEDA EXPRESAMENTE CONVENIDO, QUE SI NO ES PAGADO ESTE DOCUMENTO PRECISAMENTE A SU VENCIMIENTO, SE DARÁN POR VENCIDOS ANTICIPADAMENTE LOS DEMÁS PAGARÉS A LOS QUE SE REFIERE ÉSTA CLÁUSULA. ZAPOPAN, JALISCO A <strong><span t-esc="o.invoice_date_due"/></strong> . ASÍ MISMO, EL OTORGANTE SE OBLIGA EN LOS TÉRMINOS DEL PRESENTE PAGARÉ POR LA PERSONA QUE LOS SUSCRIBE, BASTA QUE QUIEN LO FIRME SEA TRABAJADOR O DEPENDIENTE LABORAL Y SE TENDRÁ COMO SI LO SUSCRIBIERA EL REPRESENTANTE LEGAL O DUEÑO DE LA EMPRESA OTORGANTE. 
+                        </span>
+                    </div>
+
+                    <br/><br/><br/>
+                    <!--DOCUMENTO LEGAL-->
+                    <div name="nombre_firma" style="width:100%;" class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6" style="border-top:2px solid black;"><center><strong>NOMBRE, FIRMA Y SELLO DE RECIBIDO Y CONFORMIDAD</strong></center></div>
+                        <div class="col-3"></div>
+                    </div>
+
+                    <br/>
+
+                    <t t-if="o.estado_factura == 'factura_correcta'">
+                        <div name="cadenas" class="row" style="display: table;margin-bottom:0px;padding-bottom:0px;">
+                            <div class="col-3 float-left" style="break-inside: avoid;">
+                                <img t-if="o.qrcode_image" t-att-src="'data:image/png;base64,%s' % to_text(o.qrcode_image)" style="max-height:190px;max-width: 190px;padding-left:10px;padding-bottom:0px;margin-bottom:0px;" />
+                            </div>
+
+                            <div class="col-9 float-left" style="font-size:11px;break-inside: avoid;">
+                            <!--CADENA ORIGINAL>  -->
+
+                                <span style="text-align:left;">FOLIO FISCAL:<strong><span style="color:#c0392b;" t-field="o.folio_fiscal"/></strong></span>
+                                <span style="text-align:right;float:right;">FECHA DE CERTIFICACION:<strong><span t-field="o.fecha_certificacion"/></strong></span>
+                                <br/>
+                                <span style="text-align:left;">CERTIFICADO SELLO EMISOR:<strong><span t-field="o.numero_cetificado"/></strong></span>
+                                <span style="text-align:right;float:right;">CERTIFICADO SELLO DIGITAL SAT:<strong><span t-field="o.cetificaso_sat"/></strong></span>
+                                <br/>
+
+
+                                <strong>Cadena Original del Complemento digital del SAT</strong><br/>
+                                <span t-field="o.cadena_origenal" style="word-break:break-word;font-size:8px;" /><br/>
+
+                                <strong>Sello digital del CFDI</strong><br/>
+                                <span t-field="o.selo_digital_cdfi" style="word-break:break-word;font-size:8px;" /><br/>
+
+                                <strong>Sello del SAT</strong><br/>
+                                <span t-field="o.selo_sat" style="word-break:break-word;font-size:8px;" /><br/>
+                            </div>
+                        </div>
+                    </t>
+                   
+                    <!--DOCUMENTO LEGAL-->
+                    <br/>
+                    <center>
+                        <span t-field="o.narration"/><br/>
+                        <strong>ESTE DOCUMENTO ES UNA REPRESENTACIÓN IMPRESA DE UN CFDI
+                        </strong>
+                    </center>
+                
+
+                </div><!--THIS DIV CLOSES THE PAGE-->
+            </t>
+        </template>
+
+        <template id="account.report_invoice">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="invoice_sincro_report.report_invoice_document" t-lang="o.partner_id.lang" />
+                </t>
+            </t>
+        </template>
+
+
+        <report id="account.account_invoices" model="account.move" string="Factura"
+            report_type="qweb-pdf" name="account.report_invoice" file="invoice_sincro_report.report_invoice" paperformat="invoice_sincro_report.paperformat_a4_landscape" />
+
+</odoo>
