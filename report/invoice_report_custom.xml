@@ -8,12 +8,12 @@
             <field name="page_height">0</field>
             <field name="page_width">0</field>
             <field name="orientation">Portrait</field>
-            <field name="margin_top">45</field>
-            <field name="margin_bottom">20</field>
-            <field name="margin_left">5</field>
-            <field name="margin_right">5</field>
+            <field name="margin_top">35</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">2.5</field>
+            <field name="margin_right">2.5</field>
             <field name="header_line" eval="False" />
-            <field name="header_spacing">40</field>
+            <field name="header_spacing">30</field>
             <field name="dpi">90</field>
         </record>
 
@@ -33,13 +33,13 @@
 
         <div class="footer" style="font-size:12px;">
             <div class="text-center" style="border-top: 1px solid black;">
-                <ul class="list-inline mb4">
-                    <li t-if="company.phone" class="list-inline-item">Teléfono: <span t-field="company.phone"/></li>
+                <ul class="list-inline mb4"> <!-- bull es el punto de separacion -->
+                    <li t-if="company.phone" class="list-inline-item"><span t-field="company.phone"/></li>
                     <li t-if="company.email" class="list-inline-item">&amp;bull;</li>
-                    <li t-if="company.email" class="list-inline-item" >Correo Electrónico: <span t-field="company.email"/></li>
+                    <li t-if="company.email" class="list-inline-item" ><span t-field="company.email"/></li>
                     <li t-if="company.website" class="list-inline-item">&amp;bull;</li>
-                    <li t-if="company.website" class="list-inline-item">Página web: <span t-field="company.website"/></li>
-                    <li class="list-inline-item">Página: <span class="page"/> / <span class="topage"/></li>
+                    <li t-if="company.website" class="list-inline-item"><span t-field="company.website"/></li>
+                    <li class="list-inline-item">Página: <span class="page"/>/<span class="topage"/></li>
                 </ul>
             </div>
         </div>
@@ -48,18 +48,18 @@
             <div class="row">
                 <div class="col-4">
                     <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"
-                    style="max-height:170px;max-width:220px;" />
+                    style="max-height:160px;max-width:210px;" />
                 </div>
                 <div class="col-8" name="company_information">
                     <!--COMPANY INFORMATION-->
                     <!--<strong>FACTURA</strong><br/>-->
-                    <strong>FACTURA </strong> <span style="color:#c0392b;" t-field="o.name"/><br/>
-                    <span t-field="o.company_id.nombre_fiscal"/><br/>
-                    <span t-field="o.company_id.vat"/><br/>
+                    <strong>FACTURA <span style="color:#c0392b;" t-field="o.name"/></strong><br/>
+                    <strong><span style="color:#22317f;" t-field="o.company_id.nombre_fiscal"/></strong><br/>
+                    <strong><span style="color:#22317f;" t-field="o.company_id.vat"/></strong><br/>
                     <span t-field="o.company_id.street"/> <span t-field="o.company_id.street2"/><br/>
                     C.P <span t-field="o.company_id.zip"/> <span t-field="o.company_id.city"/> <span t-field="o.company_id.state_id.name"/> <span t-field="o.company_id.country_id.name"/><br/>
-                    <span t-field="o.company_id.phone"/><br/>
-                    <span t-field="o.company_id.email"/>
+                    <span t-field="o.company_id.phone"/><br/> 
+		    <span t-field="o.company_id.email"/>
                 </div>
             </div>
         </div>
@@ -75,24 +75,23 @@
                     <!--GENERAL INFORMATION-->
                     <div class="row" name="general_information">
                         <div class="col-5">
-                            <span style="color:#c0392b;"><strong>RECEPTOR DEL COMPROBANTE FISCAL</strong></span><br/>
-                            <span style="color:#c0392b;" t-field="o.partner_id.name"/><br/>
-                            <span style="color:#c0392b;" t-field="o.partner_id.vat"/><br/>
-                            <strong>DOMICILIO FISCAL</strong><br/>
-                            <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/> C.P <span t-field="o.partner_id.zip"/>
-                            <span t-field="o.partner_id.state_id.name"/> <span t-field="o.partner_id.country_id.name"/>
+                            <span style="color:#22317f;"><strong>RECEPTOR DEL COMPROBANTE FISCAL</strong></span><br/>
+                            <span style="color:black" t-field="o.partner_id.name"/><br/>
+                            <span style="color:black" t-field="o.partner_id.vat"/><br/>
+                            <strong style="color:#22317f;">DOMICILIO FISCAL</strong><br/>
+                            <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/> C.P <span t-field="o.partner_id.zip"/> <span t-field="o.partner_id.state_id.name"/> <span t-field="o.partner_id.country_id.name"/>
                         </div>
 
-                        <div class="col-3">
-                            EXPEDIDO EN: <span t-field="o.company_id.zip"/><br/>
-                            TIPO DE COMPROBANTE: <span t-field="o.tipo_comprobante"/><br/>
-                            <strong>USO DEL CFDI:</strong> <span t-field="o.uso_cfdi"/>
+                        <div class="col-3" style="color:#22317f;">
+                            <strong>EXPEDIDO EN:</strong> <span style="color:#000000;" t-field="o.company_id.zip"/><br/>
+                            <strong>TIPO DE COMPROBANTE:</strong> <span style="color:#000000;" t-field="o.tipo_comprobante"/><br/>
+                            <strong>USO DEL CFDI:</strong> <span style="color:#000000;" t-field="o.uso_cfdi"/>
                         </div>
 
-                        <div class="col-4">
-                            FECHA DE VENCIMIENTO: <span t-field="o.invoice_date_due"/><br/>
-                            FECHA DE EMISIÓN: <span t-field="o.fecha_factura"/> <br/>
-                            REGIMEN FISCAL: <strong><span t-field="o.company_id.regimen_fiscal"/></strong>
+                        <div class="col-4" style="color:#22317f;">
+                            <strong>FECHA DE VENCIMIENTO:</strong> <span style="color:#000000;" t-field="o.invoice_date_due"/><br/>
+                            <strong>FECHA DE EMISIÓN:</strong> <span style="color:#000000;" t-field="o.fecha_factura"/> <br/>
+                            <strong>REGIMEN FISCAL:</strong> <span style="color:#000000;" t-field="o.company_id.regimen_fiscal"/>
                         </div>
                     </div>
                     <!--END GENERAL INFORMATION-->
@@ -102,15 +101,15 @@
                         <table class="table table-borderless" style="width:100%;">
                             <thead>
                                 <tr>
-                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">PARTIDA</td>
-                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">CANT.</td>
-                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">CODIGO</td>
-                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">CLAVE SAT</td>
-                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">UNIDAD SAT</td>
-                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;width:30%;">PRODUCTO/SERVICIO</td>
-                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">PRECIO</td>
-                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">IMPUESTO</td>
-                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">IMPORTE</td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;"><span style="color:white;">PARTIDA</span></td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;"><span style="color:white;">CANT.</span></td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;"><span style="color:white;">CODIGO</span></td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;"><span style="color:white;">CLAVE SAT</span></td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;"><span style="color:white;">UNIDAD SAT</span></td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;width:30%;"><span style="color:white;">PRODUCTO/SERVICIO</span></td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;"><span style="color:white;">PRECIO</span></td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;"><span style="color:white;">IMPUESTO</span></td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;"><span style="color:white;">IMPORTE</span></td>
                                 </tr>
                             </thead>
 
@@ -178,19 +177,24 @@
                         <table class="table table-borderless" style="width:100%;">
                             <thead>
                                 <tr>
-                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">DETALLES DE PAGO</td>
-                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;">IMPORTES</td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;"><span style="color:white;">DETALLES DE PAGO</span></td>
+                                    <td style="text-align:center;background-color:#808b96;padding:2px;font-weight:bold;"><span style="color:white;">IMPORTES</span></td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>
                                         <p>
-                                        <strong>FORMA DE PAGO:</strong> <span t-field="o.forma_pago"/><br/>
-                                        <strong>METODO DE PAGO:</strong> <span t-field="o.methodo_pago"/><br/>
-                                        <strong>CONDICIONES DE PAGO:</strong> <span t-field="o.invoice_payment_term_id.name"/>        <strong>MONEDA Y TC:</strong>  <span t-field="o.currency_id.name"/> <span t-field="o.currency_id.rate"/><br/>
-                                        <strong>ORDEN DE COMPRA:</strong> <span t-field="o.payment_reference"/> <strong>AREA SOLICITANTE:</strong> <span t-field="o.partner_id.ref"/><br/>  
-                                        <strong><span style="font-size:17px;">TOTAL CON LETRA: <span t-esc="o._get_amount_2_text(o.amount_total)"/></span></strong>
+                                        <strong style="color:#22317f;">FORMA DE PAGO:</strong> <span t-field="o.forma_pago"/><br/>
+                                        <strong style="color:#22317f;">METODO DE PAGO:</strong> <span t-field="o.methodo_pago"/><br/>
+                                        <strong style="color:#22317f;">CONDICIONES DE PAGO:</strong> <span t-field="o.invoice_payment_term_id.name"/> <strong class="col-9" style="color:#22317f;">MONEDA Y TC:</strong> <span t-field="o.currency_id.name"/> <span t-field="o.currency_id.rate"/><br/>
+                                        <strong style="color:#22317f;">ORDEN DE COMPRA: <span style="color:#c0392b;" t-field="o.payment_reference"/></strong> <strong class="col-9" style="color:#22317f;">AREA SOLICITANTE:</strong> <span t-field="o.partner_id.ref"/><br/>  
+                                        <strong><span style="font-size:16px;">IMPORTE CON LETRA: <span t-esc="o._get_amount_2_text(o.amount_total)"/></span></strong>
+<!-- Pagare -->                         <div name="pagare_information" style="width:100%;font-size:6px;">
+                                          <span>
+                                            DEBO (EMOS) Y PAGARE (MOS) INCONDICIONALMENTE A LA ORDEN DE<strong> <span t-field="o.company_id.name"/></strong>, EN ESTA CIUDAD, EL DÍA <strong> <span t-field="o.invoice_date_due"/></strong>, LA CANTIDAD DE <strong><span t-esc="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/> (<span t-esc="o._get_amount_2_text(o.amount_total)"/>)</strong>, VALOR RECIBIDO A MI (NUESTRA) ENTERA SATISFACCIÓN. ESTE PAGARE CAUSARA INTERESES A RAZÓN DEL 6 % MENSUAL DESDE LA FECHA DE VENCIMIENTO HASTA SU TOTAL LIQUIDACIÓN, PAGADERO CONJUNTAMENTE CON EL PRINCIPAL. ASÍ MISMO APLICARÁ EL COBRO DE LOS GASTOS DE COBRANZA GENERADOS, EN SU CASO, DE 15 (QUINCE) UMA’s POR CADA MES VENCIDO. EN CASO DE COBRO JUDICIAL, PAGARÉ LOS GASTOS QUE SE ORIGINEN, SOMETIÉNDOME EXPRESAMENTE A LOS TRIBUNALES QUE EL ACREEDOR ELIJA Y RENUNCIANDO AL FUERO DE MI ACTUAL O FUTURO DOMICILIO. ESTE PAGARÉ ES MERCANTIL Y ESTÁ REGIDO POR LA LEY GENERAL DE TÍTULOS DE OPERACIONES DE CRÉDITO, EN SUS ARTÍCULOS 172 Y 173, PARTE FINAL, POR NO SER PAGARÉ DOMICILIADO Y ARTÍCULOS CORRELATIVOS. LA CANTIDAD QUE AMPARA ESTE PAGARÉ ES PARTE DE LA CANTIDAD MAYOR POR LA CUAL SE OTORGAN OTROS PAGARÉS CON VENCIMIENTOS POSTERIORES Y QUEDA EXPRESAMENTE CONVENIDO, QUE SI NO ES PAGADO ESTE DOCUMENTO PRECISAMENTE A SU VENCIMIENTO, SE DARÁN POR VENCIDOS ANTICIPADAMENTE LOS DEMÁS PAGARÉS A LOS QUE SE REFIERE ÉSTA CLÁUSULA. ZAPOPAN, JALISCO A <strong><span t-field="o.invoice_date"/></strong> . ASÍ MISMO, EL OTORGANTE SE OBLIGA EN LOS TÉRMINOS DEL PRESENTE PAGARÉ POR LA PERSONA QUE LOS SUSCRIBE, BASTA QUE QUIEN LO FIRME SEA TRABAJADOR O DEPENDIENTE LABORAL Y SE TENDRÁ COMO SI LO SUSCRIBIERA EL REPRESENTANTE LEGAL O DUEÑO DE LA EMPRESA OTORGANTE. 
+                                          </span>
+<!-- Fin Pagare -->                     </div>
                                     </p>
                                     </td>
 
@@ -230,26 +234,30 @@
                                                 </td>
                                             </tr>
                                         </table>
+<!-- Firma Pagare -->                   <br/><br/><br/><br/>
+                                        <div name="nombre_firma" style="width:100%;font-size:7px;" class="row">
+                                          <div style="border-top:2px solid black;"><center><strong>NOMBRE, FIRMA Y SELLO DE RECIBIDO Y CONFORMIDAD</strong></center></div>
+<!-- Fin Firma -->                      </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+		    </div>
+<!-- Pagare
+                    <div name="pagare_information" style="width:100%;font-size:6px;">
+                     <span>
+                       DEBO (EMOS) Y PAGARE (MOS) INCONDICIONALMENTE A LA ORDEN DE<strong> <span t-field="o.company_id.name"/></strong>, EN ESTA CIUDAD, EL DÍA <strong> <span t-field="o.invoice_date_due"/></strong>, LA CANTIDAD DE <strong><span t-esc="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/> (<span t-esc="o._get_amount_2_text(o.amount_total)"/>)</strong>, VALOR RECIBIDO A MI (NUESTRA) ENTERA SATISFACCIÓN. ESTE PAGARE CAUSARA INTERESES A RAZÓN DEL 6 % MENSUAL DESDE LA FECHA DE VENCIMIENTO HASTA SU TOTAL LIQUIDACIÓN, PAGADERO CONJUNTAMENTE CON EL PRINCIPAL. ASÍ MISMO APLICARÁ EL COBRO DE LOS GASTOS DE COBRANZA GENERADOS, EN SU CASO, DE 15 (QUINCE) UMA’s POR CADA MES VENCIDO. EN CASO DE COBRO JUDICIAL, PAGARÉ LOS GASTOS QUE SE ORIGINEN, SOMETIÉNDOME EXPRESAMENTE A LOS TRIBUNALES QUE EL ACREEDOR ELIJA Y RENUNCIANDO AL FUERO DE MI ACTUAL O FUTURO DOMICILIO. ESTE PAGARÉ ES MERCANTIL Y ESTÁ REGIDO POR LA LEY GENERAL DE TÍTULOS DE OPERACIONES DE CRÉDITO, EN SUS ARTÍCULOS 172 Y 173, PARTE FINAL, POR NO SER PAGARÉ DOMICILIADO Y ARTÍCULOS CORRELATIVOS. LA CANTIDAD QUE AMPARA ESTE PAGARÉ ES PARTE DE LA CANTIDAD MAYOR POR LA CUAL SE OTORGAN OTROS PAGARÉS CON VENCIMIENTOS POSTERIORES Y QUEDA EXPRESAMENTE CONVENIDO, QUE SI NO ES PAGADO ESTE DOCUMENTO PRECISAMENTE A SU VENCIMIENTO, SE DARÁN POR VENCIDOS ANTICIPADAMENTE LOS DEMÁS PAGARÉS A LOS QUE SE REFIERE ÉSTA CLÁUSULA. ZAPOPAN, JALISCO A <strong><span t-field="o.invoice_date"/></strong> . ASÍ MISMO, EL OTORGANTE SE OBLIGA EN LOS TÉRMINOS DEL PRESENTE PAGARÉ POR LA PERSONA QUE LOS SUSCRIBE, BASTA QUE QUIEN LO FIRME SEA TRABAJADOR O DEPENDIENTE LABORAL Y SE TENDRÁ COMO SI LO SUSCRIBIERA EL REPRESENTANTE LEGAL O DUEÑO DE LA EMPRESA OTORGANTE. 
+                     </span>
                     </div>
 
-                    <div name="pagare_information" style="width:100%;font-size:8px;">
-                        <span>
-                        DEBO (EMOS) Y PAGARE (MOS )INCONDICIONALMENTE A LA ORDEN DE <strong><span t-field="o.company_id.nombre_fiscal"/></strong>, EN ESTA CIUDAD,  EL DÍA <strong><span t-field="o.invoice_date"/></strong>, LA CANTIDAD DE <strong><span t-esc="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/> (<span t-esc="o._get_amount_2_text(o.amount_total)"/>)</strong>, VALOR RECIBIDO A MI (NUESTRA) ENTERA SATISFACCIÓN. ESTE PAGARE CAUSARA INTERESES A RAZÓN DEL 6 % MENSUAL DESDE LA FECHA DE VENCIMIENTO HASTA SU TOTAL LIQUIDACIÓN, PAGADERO CONJUNTAMENTE CON EL PRINCIPAL. ASÍ MISMO APLICARÁ EL COBRO DE LOS GASTOS DE COBRANZA GENERADOS, EN SU CASO, DE 15 (QUINCE) UMA’s POR CADA MES VENCIDO. EN CASO DE COBRO JUDICIAL, PAGARÉ LOS GASTOS QUE SE ORIGINEN, SOMETIÉNDOME EXPRESAMENTE A LOS TRIBUNALES QUE EL ACREEDOR ELIJA Y RENUNCIANDO AL FUERO DE MI ACTUAL O FUTURO DOMICILIO. ESTE PAGARÉ ES MERCANTIL Y ESTÁ REGIDO POR LA LEY GENERAL DE TÍTULOS DE OPERACIONES DE CRÉDITO, EN SUS ARTÍCULOS 172 Y 173, PARTE FINAL, POR NO SER PAGARÉ DOMICILIADO Y ARTÍCULOS CORRELATIVOS. LA CANTIDAD QUE AMPARA ESTE PAGARÉ ES PARTE DE LA CANTIDAD MAYOR POR LA CUAL SE OTORGAN OTROS PAGARÉS CON VENCIMIENTOS POSTERIORES Y QUEDA EXPRESAMENTE CONVENIDO, QUE SI NO ES PAGADO ESTE DOCUMENTO PRECISAMENTE A SU VENCIMIENTO, SE DARÁN POR VENCIDOS ANTICIPADAMENTE LOS DEMÁS PAGARÉS A LOS QUE SE REFIERE ÉSTA CLÁUSULA. ZAPOPAN, JALISCO A <strong><span t-esc="o.invoice_date_due"/></strong> . ASÍ MISMO, EL OTORGANTE SE OBLIGA EN LOS TÉRMINOS DEL PRESENTE PAGARÉ POR LA PERSONA QUE LOS SUSCRIBE, BASTA QUE QUIEN LO FIRME SEA TRABAJADOR O DEPENDIENTE LABORAL Y SE TENDRÁ COMO SI LO SUSCRIBIERA EL REPRESENTANTE LEGAL O DUEÑO DE LA EMPRESA OTORGANTE. 
-                        </span>
-                    </div>
-
-                    <br/><br/><br/>
-                    <!--DOCUMENTO LEGAL-->
-                    <div name="nombre_firma" style="width:100%;" class="row">
+                    <br/><br/>
+       
+                    <div name="nombre_firma" style="width:100%;font-size:7px;" class="row">
                         <div class="col-3"></div>
                         <div class="col-6" style="border-top:2px solid black;"><center><strong>NOMBRE, FIRMA Y SELLO DE RECIBIDO Y CONFORMIDAD</strong></center></div>
                         <div class="col-3"></div>
                     </div>
-
+ Fin Pagare -->
                     <br/>
 
                     <t t-if="o.estado_factura == 'factura_correcta'">
@@ -258,10 +266,10 @@
                                 <img t-if="o.qrcode_image" t-att-src="'data:image/png;base64,%s' % to_text(o.qrcode_image)" style="max-height:190px;max-width: 190px;padding-left:10px;padding-bottom:0px;margin-bottom:0px;" />
                             </div>
 
-                            <div class="col-9 float-left" style="font-size:11px;break-inside: avoid;">
+                            <div class="col-9 float-left" style="font-size:8px;break-inside: avoid;">
                             <!--CADENA ORIGINAL>  -->
 
-                                <span style="text-align:left;">FOLIO FISCAL:<strong><span style="color:#c0392b;" t-field="o.folio_fiscal"/></strong></span>
+                                <span style="text-align:left;">FOLIO FISCAL:<strong><span t-field="o.folio_fiscal"/></strong></span>
                                 <span style="text-align:right;float:right;">FECHA DE CERTIFICACION:<strong><span t-field="o.fecha_certificacion"/></strong></span>
                                 <br/>
                                 <span style="text-align:left;">CERTIFICADO SELLO EMISOR:<strong><span t-field="o.numero_cetificado"/></strong></span>
