@@ -253,12 +253,12 @@
                     <br/>
 
                     <t t-if="o.estado_factura == 'factura_correcta'">
-                        <div name="cadenas" class="row" style="display: table;margin-bottom:0px;padding-bottom:0px;">
-                            <div class="col-3 float-left" style="break-inside: avoid;">
+                        <div name="cadenas" class="row" style="display: flex; align-items: flex-start; margin-bottom:0px;padding-bottom:0px;">
+                            <div class="col-3" style="break-inside: avoid;">
                                 <img t-if="o.qrcode_image" t-att-src="image_data_uri(o.qrcode_image)" style="max-height:160px;max-width: 160px;padding-left:10px;padding-bottom:0px;margin-bottom:0px;"/>
                             </div>
 
-                            <div class="col-9 float-left" style="font-size:8px;break-inside: avoid;">
+                            <div class="col-9" style="font-size:8px;break-inside: avoid;">
                             <!--CADENA ORIGINAL>  -->
 
                                 <span style="text-align:left;">FOLIO FISCAL:<strong><span t-field="o.folio_fiscal"/></strong></span>
