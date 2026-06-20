@@ -87,7 +87,7 @@
                         <div class="col-3" style="color:#22317f;">
                             <strong>EXPEDIDO EN:</strong> <span style="color:#000000;" t-field="o.company_id.zip"/><br/>
                             <strong>TIPO DE COMPROBANTE:</strong> <span style="color:#000000;" t-field="o.tipo_comprobante"/><br/>
-                            <strong>USO DEL CFDI:</strong> <span style="color:#000000;" t-field="o.uso_cfdi"/><br/>
+<!-- Ajuste Uso-->          <strong>USO DEL CFDI:</strong> <span style="color:#000000;" t-field="o.uso_cfdi_id.name"/><br/>
                             <strong>CONTACTO:</strong> <span style="color:#000000;" t-field="o.narration"/><br/>
                             <strong style="color:#22317f">REGIMEN FISCAL: </strong> <span style="color:#000000" t-field="o.partner_id.regimen_fiscal"/><br/>
                         </div>
