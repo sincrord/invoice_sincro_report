@@ -6,7 +6,7 @@
 
 {
     'name': 'Formato de reporte de factura Sincro',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.0.3',
     'description': ''' Invoice report
     ''',
     'category': 'Accounting',
