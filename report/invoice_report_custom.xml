@@ -90,7 +90,7 @@
                             <t t-if="o.company_cfdi == True and o.factura_cfdi">
                                 <strong>USO DEL CFDI:</strong> <span style="color:#000000;" t-field="o.uso_cfdi_id.code"/> - <span style="color:#000000;" t-field="o.uso_cfdi_id.description"/><br/>
                             </t>
-                            <strong>CONTACTO:</strong> <span style="color:#000000;" t-field="o.narration"/><br/>
+                            <strong>CONTACTO:</strong> <span style="color:#000000;" t-field="o.narration"/>
                             <t t-if="o.company_cfdi == True and o.factura_cfdi">
                                 <strong style="color:#22317f">REGIMEN FISCAL: </strong> <span style="color:#000000" t-field="o.partner_id.regimen_fiscal_id.code"/> - <span style="color:#000000" t-field="o.partner_id.regimen_fiscal_id.description"/><br/>
                             </t>
@@ -196,8 +196,8 @@
                                         <p>
                                         <strong style="color:#22317f;">FORMA DE PAGO:</strong> <span t-field="o.forma_pago_id.code"/> - <span t-field="o.forma_pago_id.description"/><br/>
                                         <strong style="color:#22317f;">METODO DE PAGO:</strong> <span t-field="o.methodo_pago"/><br/>
-                                        <strong style="color:#22317f;">CONDICIONES DE PAGO:</strong> <span t-field="o.invoice_payment_term_id.name"/> <strong class="col-9" style="color:#22317f;">MONEDA Y TC:</strong> <span t-field="o.currency_id.name"/> <span t-field="o.currency_id.rate"/><br/>
-                                        <strong style="color:#22317f;">ORDEN DE COMPRA: <span style="color:#c0392b;" t-field="o.payment_reference"/></strong> <strong class="col-9" style="color:#22317f;">AREA SOLICITANTE:</strong> <span t-field="o.partner_id.ref"/><br/>  
+                                        <strong style="color:#22317f;">CONDICIONES DE PAGO:</strong> <span t-field="o.invoice_payment_term_id"/> <strong class="col-9" style="color:#22317f;"> TC y MONEDA:</strong> <span t-field="o.currency_id.rate"/> <span t-field="o.currency_id.name"/><br/>
+                                        <strong style="color:#22317f;">ORDEN DE COMPRA: <span style="color:#c0392b;" t-field="o.payment_reference"/></strong> <strong class="col-9" style="color:#22317f;">AREA SOLICITANTE:</strong> <span t-field="o.ref"/><br/>   
                             <!-- Direccion de entrega             
                                         <strong style="color:#22317f;">DOMICILIO FISCAL</strong><br/>
                                         <span t-field="o.partner_id.street"/> <span t-field="o.partner_id.street2"/> C.P <span t-field="o.partner_id.zip"/> <span t-field="o.partner_id.state_id.name"/> <span t-field="o.partner_id.country_id.name"/>
