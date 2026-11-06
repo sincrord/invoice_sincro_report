@@ -316,7 +316,15 @@
         </template>
 
 
-        <report id="account.account_invoices" model="account.move" string="Factura"
-            report_type="qweb-pdf" name="account.report_invoice" file="invoice_sincro_report.report_invoice" paperformat="invoice_sincro_report.paperformat_a4_landscape"/>
+        <record id="account.account_invoices" model="ir.actions.report">
+            <field name="name">Factura</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">account.report_invoice</field>
+            <field name="report_file">invoice_sincro_report.report_invoice</field>
+            <field name="paperformat_id" ref="invoice_sincro_report.paperformat_a4_landscape"/>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_type">report</field>
+        </record>
 
 </odoo>
