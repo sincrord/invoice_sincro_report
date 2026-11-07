@@ -287,7 +287,9 @@
                     <center>
 							            <strong style="font-size:9px;">ESTE DOCUMENTO ES UNA REPRESENTACIÓN IMPRESA DE UN CFDI 4.0</strong><br/>
 	                        <strong style="font-size:6.5px;">Efectos fiscales al pago</strong><br/>
-	                        <strong style="font-size:8px; color:red">--- Depositar a la cuenta HSBC CLABE: 021320040569929105 ---</strong><br/>
+                        <t t-if="o.partner_bank_id and o.partner_bank_id.bank_id and o.partner_bank_id.acc_number">
+                            <strong style="font-size:8px; color:red">--- Depositar a la cuenta <span t-field="o.partner_bank_id.bank_id.name"/> CLABE: <span t-field="o.partner_bank_id.acc_number"/> ---</strong><br/>
+                        </t>
 	                        <strong style="font-size:8px;">NO SE ACEPTAN CAMBIOS NI DEVOLUCIONES SIN RECARGO DEL 10% NI DESPUÉS DE 5 DÍAS NATURALES</strong><br/>
 	                        <strong style="font-size:8px;">*** Se vende bajo reserva de dominio. LA POSESIÓN DE ESTA FACTURA NO GARANTIZA QUE SE HAYA CUBIERTO EL PAGO DE LA MISMA. *** CARGO ADICIONAL DE 20% MAS IVA SOBRE CHEQUE DEVUELTOSIN EXCEPCIONES</strong><br/>
 						        </center>
